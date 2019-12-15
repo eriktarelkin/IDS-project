@@ -4,19 +4,19 @@ import numpy as np
 from sklearn.linear_model import LinearRegression
 from sklearn.svm import SVR
 from sklearn.model_selection import train_test_split
+import matplotlib.pyplot as plt
 
 # Get the stock data
-df = pd.read_csv("amd.us.txt")
+df = pd.read_csv("amd.us.txt", index_col=0)
 # No need for openint
 df = df.drop(["OpenInt"], 1)
-# Oldest data point may be too volatile, better to drop it
-df = df.drop("Date", 1)
-df = df.drop(0, 0)
-print(df.tail())
+
+print(df.head())
 
 # Variable for predicting "n" days into the future
-days = 1
+days = 30
 
+df = df[["Close"]]
 # Another column shifted n units up
 df["Prediction"] = df[["Close"]].shift(-days)
 print(df.tail())
@@ -50,3 +50,10 @@ svr_rbf.fit(x_train, y_train)
 
 svm_confidence = svr_rbf.score(x_test, y_test)
 print("SVM confidence: ", svm_confidence)
+x_forecast = np.array(df.drop(["Prediction"],1))[-days:]
+#prediction n days in the future
+predicted_stock = svr_rbf.predict(x_forecast)
+#plt.plot(y)
+plt.plot(predicted_stock)
+plt.show()
+
