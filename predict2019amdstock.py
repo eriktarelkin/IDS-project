@@ -1,4 +1,4 @@
-
+import yfinance as yf
 import numpy as np
 import pandas as pd
 from matplotlib import pyplot as plt
@@ -21,8 +21,8 @@ df.columns = [str(x).lower().replace(' ', '_') for x in df.columns]
 #df["days"] = days
 #df =df.tail(120)#only last year
 #split data
-num_val = int(0.3*len(df))
-num_test = int(0.1*len(df))
+num_val = int(0.2*len(df))
+num_test = int(0.2*len(df))
 num_train = len(df) - num_val - num_test
 
 train = df[:num_train]
@@ -46,24 +46,35 @@ prices = train["close"].values
 val_dates = val.drop(["close"],1).drop(["date"],1).values
 val_prices = val["close"].values
 
-
+print(dates,prices)
 rfr = RandomForestRegressor().fit(dates,prices)
+
+data = yf.download("AMD","2019-01-01","2019-12-01")
+df4 = pd.DataFrame(data).drop(["Adj Close"],1)
+print(df4)
+df4 = df4.reset_index()
+print(df4)
+new_test_dates = df4.drop(["Close"],1).drop(["Date"],1)
+new_test_prices = df4["Close"]
+
+
 #confidence score on validation data
 rfr_confidence = rfr.score(val_dates,val_prices)
 print("rfr confidence: ", rfr_confidence)
 
 test_dates = test.drop(["close"],1).drop(["date"],1).values
 
-predicted_stock = rfr.predict(test_dates)
+predicted_stock = rfr.predict(new_test_dates)
+print(predicted_stock)
 
-print(test)
-df2 = pd.DataFrame({"date":test["date"].values,"close":predicted_stock})
+df2 = pd.DataFrame({"date":df4["Date"].values,"close":predicted_stock})
 df3 = lr.df2
 
-gx = test.plot(x="date", y="close", style='g-', grid=True,alpha=0.5)
-gx = df2.plot(x="date", y="close", style="r-", grid = True, ax=gx,alpha=0.7)
-gx = df3.plot(x="date", y="close", color ="orange", grid = True, ax=gx,alpha=0.5)
-gx.legend(["Real Price", 'RandomForestRegressor',"Linear Regression"])
+
+gx = df4.plot(x="Date", y="Close", style='g-', grid=True)
+gx = df2.plot(x="date", y="close", style="r-", grid = True, ax=gx)
+
+gx.legend(['Real Price', 'RandomForestRegressor'])
 gx.set_xlabel("date")
 gx.set_ylabel("USD")
 plt.show()
