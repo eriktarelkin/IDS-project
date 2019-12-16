@@ -11,15 +11,15 @@ df = pd.read_csv("amd.us.txt", index_col=0)
 # No need for openint
 df = df.drop(["OpenInt"], 1)
 
-print(df.head())
+#print(df.head())
 
 # Variable for predicting "n" days into the future
-days = 30
+days = 7
 
 df = df[["Close"]]
 # Another column shifted n units up
 df["Prediction"] = df[["Close"]].shift(-days)
-print(df.tail())
+#print(df.tail())
 
 # New data set
 # Dataframe to a numpy array
@@ -42,6 +42,7 @@ x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
 # Create and train the Support Vector Regression
 
+
 svr_rbf = SVR(kernel="rbf", C=1e3, gamma=0.1)
 svr_rbf.fit(x_train, y_train)
 
@@ -53,7 +54,13 @@ print("SVM confidence: ", svm_confidence)
 x_forecast = np.array(df.drop(["Prediction"],1))[-days:]
 #prediction n days in the future
 predicted_stock = svr_rbf.predict(x_forecast)
-#plt.plot(y)
-plt.plot(predicted_stock)
+
+df.loc[df.tail(days).index, 'Prediction'] = predicted_stock
+print(df.tail(days))
+ax = df.tail(days).plot(grid=True)
+ax.set_xlabel("date")
+ax.set_ylabel("USD")
 plt.show()
+
+
 
