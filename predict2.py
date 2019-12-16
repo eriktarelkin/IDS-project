@@ -4,6 +4,9 @@ import pandas as pd
 from matplotlib import pyplot as plt
 from pylab import rcParams
 from sklearn.ensemble import RandomForestRegressor
+from sklearn.metrics import mean_squared_error
+import math
+from sklearn.linear_model import LinearRegression
 
 
 df = pd.read_csv("amd.us.txt")
@@ -27,13 +30,13 @@ val = df[num_train:num_train+num_val]
 test = df[num_train+num_val:]
 
 #plot the data
-rcParams['figure.figsize'] = 20, 8
-ax = train.plot(x="date", y="close", style='b-', grid=True)
-ax = val.plot(x="date", y="close", style='y-', grid=True, ax=ax)
-ax = test.plot(x="date", y="close", style='g-', grid=True, ax=ax)
-ax.legend(['train', 'validation', 'test'])
-ax.set_xlabel("date")
-ax.set_ylabel("USD")
+rcParams['figure.figsize'] = 25, 10
+ax = train.plot(x="date", y="close", style='b-', grid=True, fontsize=17)
+ax = val.plot(x="date", y="close", style='gray', grid=True, ax=ax)
+ax = test.plot(x="date", y="close", style='red', grid=True, ax=ax)
+ax.legend(['train', 'validation', 'test'], fontsize=18)
+ax.set_xlabel("Date", fontsize=25)
+ax.set_ylabel("USD", fontsize=25)
 plt.show()
 
 
