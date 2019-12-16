@@ -23,7 +23,7 @@ df["Prediction"] = df[["Close"]].shift(-days)
 
 # New data set
 # Dataframe to a numpy array
-
+print(df)
 X = np.array(df.drop(["Prediction"], 1))
 
 # Remove the last "n" rows
@@ -41,9 +41,11 @@ print(y)
 x_train, x_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
 
 # Create and train the Support Vector Regression
-
-
-svr_rbf = SVR(kernel="rbf", C=1e3, gamma=0.1)
+print("values")
+print(x_train)
+print(y_train)
+"""
+svr_rbf = SVR(kernel="rbf", C=1e5, gamma=0.1)
 svr_rbf.fit(x_train, y_train)
 
 # Testing Model: Score returns the coefficient of determination R^2 of the prediction.
@@ -61,6 +63,6 @@ ax = df.tail(days).plot(grid=True)
 ax.set_xlabel("date")
 ax.set_ylabel("USD")
 plt.show()
-
+"""
 
 
