@@ -5,8 +5,12 @@ This repository contains our machine learning project (using random forest and l
 It's reccomended to run the .py files in pycharm, since the project interpreter is already configured and a part of the project.
 
 LR.py contains a Linear Regression algorithm.
+
 predict2.py contains a RandomForestRegressor.
 
+predict2019amdstock.py contains the code for the predictions of AMD's 2019 stock.
+
+The repository has the history of three stocks (in .txt file format): AMD, Microsoft and Apple.
 
 Linear Regression produced better results than RandomForestRegressor.(Below on the pictures the problem can be seen with RandomForest)
 
