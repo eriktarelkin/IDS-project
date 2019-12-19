@@ -1,14 +1,14 @@
 # IDS-project
 
-This repository contains a machine learning algorithm (using random forest and linear regression)
+This repository contains our machine learning project (using random forest and linear regression)
 
 It's reccomended to run the .py files in pycharm, since the project interpreter is already configured and a part of the project.
 
-RandomForestRegression has by far the best results when comparing it with linear regression
+RandomForestRegression produced better results than LinearRegression.
 
-Currently the issue with this project is overfitting. All the current attempts at it are pretty much useless, that's why we produced such high and good results
+Unfortunately we were not able to fix overfitting with some of the methods we tried(like recursive feature elimination). Later we realized that lookahead bias was the culprit of this problem(we were giving our algorithm daily high, low prices and volume. These things are not known actually until the day ends.)
 
-Tested on AMD stocks, Microsoft stocks and Apple stocks (RandomForestRegression worked best with AMD stocks)
+Tested on AMD stock, Microsoft stock and Apple stock (RandomForestRegression worked best with AMD stock)
 
 
 
